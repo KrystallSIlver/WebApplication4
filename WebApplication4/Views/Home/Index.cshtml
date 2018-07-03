@@ -1,5 +1,4 @@
-﻿@model IEnumerable<WebApplication4.Models.TodoViewModel>
-@using System
+﻿@using System
 @{
     ViewData["Title"] = "Index";
 }
@@ -9,21 +8,3 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
