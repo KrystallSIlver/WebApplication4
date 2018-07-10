@@ -16,13 +16,13 @@ namespace WebApplication4
         
         private readonly ApplicationDbContext _context;
 
-        public TodoViewModelsController(ApplicationDbContext context , CategoryContext catContext)
+        public TodoViewModelsController(ApplicationDbContext context)
         {
 
             _context = context;
-            _catContext = catContext;
+           
         }
-        private readonly CategoryContext _catContext;
+
 
         
 
@@ -57,7 +57,7 @@ namespace WebApplication4
         public IActionResult Create()
         {
             
-            ViewBag.Categories = new SelectList(_catContext.CategoryViewModel.Select(c => new {Name = c.Name }), "Name","Name");
+            ViewBag.Categories = new SelectList(_context.CategoryViewModel.Select(c => new {Name = c.Name }), "Name","Name");
             return View();
         }
         // POST: TodoViewModels/Create
@@ -81,7 +81,7 @@ namespace WebApplication4
         // GET: TodoViewModels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.Categor = new SelectList(_catContext.CategoryViewModel.Select(c => new { Name = c.Name }), "Name", "Name");
+            ViewBag.Categor = new SelectList(_context.CategoryViewModel.Select(c => new { Name = c.Name }), "Name", "Name");
             if (id == null)
             {
                 return NotFound();

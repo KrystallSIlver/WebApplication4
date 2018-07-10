@@ -11,9 +11,9 @@ namespace WebApplication4
 {
     public class CategoryViewModelsController : Controller
     {
-        private readonly CategoryContext _context;
+        private readonly WebApplication4.Data.ApplicationDbContext _context;
 
-        public CategoryViewModelsController(CategoryContext context)
+        public CategoryViewModelsController(WebApplication4.Data.ApplicationDbContext context)
         {
             _context = context;
         }

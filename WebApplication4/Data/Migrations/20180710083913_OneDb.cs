@@ -1,19 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace WebApplication4.Migrations
+namespace WebApplication4.Data.Migrations
 {
-    public partial class Cat : Migration
+    public partial class OneDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterColumn<string>(
+                name: "Description",
+                table: "TodoViewModel",
+                maxLength: 99999,
+                nullable: false,
+                oldClrType: typeof(string),
+                oldNullable: true);
+
             migrationBuilder.CreateTable(
                 name: "CategoryViewModel",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -25,6 +33,13 @@ namespace WebApplication4.Migrations
         {
             migrationBuilder.DropTable(
                 name: "CategoryViewModel");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Description",
+                table: "TodoViewModel",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldMaxLength: 99999);
         }
     }
 }
