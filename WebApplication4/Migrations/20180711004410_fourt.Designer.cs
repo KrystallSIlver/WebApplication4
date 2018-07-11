@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication4.Data;
 
-namespace WebApplication4.Data.Migrations
+namespace WebApplication4.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180701144337_Tod2")]
-    partial class Tod2
+    [Migration("20180711004410_fourt")]
+    partial class fourt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -186,23 +186,43 @@ namespace WebApplication4.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("WebApplication4.Models.CategoryViewModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("CategoryId")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("categoryViewModels");
+                });
+
             modelBuilder.Entity("WebApplication4.Models.TodoViewModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Description");
+                    b.Property<int?>("CategoryId");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(99999);
 
                     b.Property<DateTime>("EndDate");
-
-                    b.Property<string>("SelectedCategory");
 
                     b.Property<DateTime>("StartDate");
 
                     b.HasKey("Id");
 
-                    b.ToTable("TodoViewModel");
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("todoViewModels");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -248,6 +268,13 @@ namespace WebApplication4.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebApplication4.Models.TodoViewModel", b =>
+                {
+                    b.HasOne("WebApplication4.Models.CategoryViewModel", "Category")
+                        .WithMany("Todos")
+                        .HasForeignKey("CategoryId");
                 });
 #pragma warning restore 612, 618
         }

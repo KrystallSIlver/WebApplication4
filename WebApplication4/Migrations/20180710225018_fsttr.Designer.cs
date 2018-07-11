@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication4.Data;
 
-namespace WebApplication4.Data.Migrations
+namespace WebApplication4.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180710225018_fsttr")]
+    partial class fsttr
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,7 +198,7 @@ namespace WebApplication4.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CategoryViewModel");
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("WebApplication4.Models.TodoViewModel", b =>
@@ -205,19 +207,23 @@ namespace WebApplication4.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CategoryId");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(99999);
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<string>("SelectedCategory");
+                    b.Property<string>("Selected");
 
                     b.Property<DateTime>("StartDate");
 
                     b.HasKey("Id");
 
-                    b.ToTable("TodoViewModel");
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Todo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -263,6 +269,13 @@ namespace WebApplication4.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebApplication4.Models.TodoViewModel", b =>
+                {
+                    b.HasOne("WebApplication4.Models.CategoryViewModel", "Category")
+                        .WithMany("Todos")
+                        .HasForeignKey("CategoryId");
                 });
 #pragma warning restore 612, 618
         }

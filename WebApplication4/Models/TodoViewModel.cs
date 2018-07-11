@@ -10,6 +10,7 @@ namespace WebApplication4.Models
 {
     public class TodoViewModel
     {
+        [Key]
         public int Id { get; set; }
         [Required]
         [StringLength(99999,MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 символов")]
@@ -18,9 +19,9 @@ namespace WebApplication4.Models
         public DateTime StartDate { get; set; } 
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
-        [NotMapped]
-        [Required]
-        public List<SelectListItem> CategoryList { get; set; }
-        public string SelectedCategory { get; set; }
+
+        public int? CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        public CategoryViewModel Category { get; set; }
     }
 }

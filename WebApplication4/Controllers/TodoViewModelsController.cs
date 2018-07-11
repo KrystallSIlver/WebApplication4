@@ -29,8 +29,8 @@ namespace WebApplication4
         // GET: TodoViewModels
         public async Task<IActionResult> Index()
         {
-            
-            return View(await _context.TodoViewModel.ToListAsync());
+            var todol = _context.todoViewModels.Include(c => c.Category);
+            return View(await todol.ToListAsync());
             
         }
        
@@ -43,7 +43,7 @@ namespace WebApplication4
                 return NotFound();
             }
 
-            var todoViewModel = await _context.TodoViewModel
+            var todoViewModel = await _context.todoViewModels
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (todoViewModel == null)
             {
@@ -52,42 +52,37 @@ namespace WebApplication4
 
             return View(todoViewModel);
         }
-      
-        // GET: TodoViewModels/Create
+
+        
         public IActionResult Create()
         {
-            
-            ViewBag.Categories = new SelectList(_context.CategoryViewModel.Select(c => new {Name = c.Name }), "Name","Name");
+            ViewBag.Categor = new SelectList(_context.categoryViewModels.Select(c => new { Id = c.Id, Name = c.Name }), "Id", "Name");           
             return View();
         }
-        // POST: TodoViewModels/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description,StartDate,EndDate,SelectedCategory")] TodoViewModel todoViewModel, IFormCollection form)
+        public async Task<IActionResult> Create([Bind("Id,Description,StartDate,EndDate,CategoryId")] TodoViewModel todoViewModel)
         {
             if (ModelState.IsValid)
             {
-
-                todoViewModel.SelectedCategory = form["Categories"].ToString();
                 _context.Add(todoViewModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(todoViewModel);
         }
-
+        
         // GET: TodoViewModels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.Categor = new SelectList(_context.CategoryViewModel.Select(c => new { Name = c.Name }), "Name", "Name");
+            ViewBag.Categor = new SelectList(_context.categoryViewModels.Select(c => new { Id = c.Id, Name = c.Name }), "Id", "Name");
             if (id == null)
             {
                 return NotFound();
             }
 
-            var todoViewModel = await _context.TodoViewModel.FindAsync(id);
+            var todoViewModel = await _context.todoViewModels.FindAsync(id);
             if (todoViewModel == null)
             {
                 return NotFound();
@@ -100,7 +95,7 @@ namespace WebApplication4
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,StartDate,EndDate,SelectedCategory")] TodoViewModel todoViewModel,IFormCollection form)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,StartDate,EndDate,CategoryId")] TodoViewModel todoViewModel)
         {
             
             if (id != todoViewModel.Id)
@@ -112,7 +107,7 @@ namespace WebApplication4
             {
                 try
                 {
-                    todoViewModel.SelectedCategory = form["Categor"].ToString();
+                    
                     _context.Update(todoViewModel);
                     await _context.SaveChangesAsync();
                 }
@@ -140,7 +135,7 @@ namespace WebApplication4
                 return NotFound();
             }
 
-            var todoViewModel = await _context.TodoViewModel
+            var todoViewModel = await _context.todoViewModels
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (todoViewModel == null)
             {
@@ -155,15 +150,15 @@ namespace WebApplication4
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var todoViewModel = await _context.TodoViewModel.FindAsync(id);
-            _context.TodoViewModel.Remove(todoViewModel);
+            var todoViewModel = await _context.todoViewModels.FindAsync(id);
+            _context.todoViewModels.Remove(todoViewModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool TodoViewModelExists(int id)
         {
-            return _context.TodoViewModel.Any(e => e.Id == id);
+            return _context.todoViewModels.Any(e => e.Id == id);
         }
     }
 }

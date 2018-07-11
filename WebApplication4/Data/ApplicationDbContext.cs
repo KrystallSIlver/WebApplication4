@@ -13,7 +13,8 @@ namespace WebApplication4.Data
             : base(options)
         {
         }
-        public DbSet<WebApplication4.Models.TodoViewModel> TodoViewModel { get; set; }
-        public DbSet<WebApplication4.Models.CategoryViewModel> CategoryViewModel { get; set; }
+        
+        public DbSet<WebApplication4.Models.TodoViewModel> todoViewModels { get; set; }
+        public DbSet<WebApplication4.Models.CategoryViewModel> categoryViewModels { get; set; }
     }
 }

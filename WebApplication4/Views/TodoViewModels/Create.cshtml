@@ -10,31 +10,35 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label class="control-label">Describe the Task</label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Select the Date of Task`s start</label>
-                <input asp-for="StartDate" class="form-control" value="@DateTime.Now"/>
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Slelct the Date of Task`s End</label>
-                <input asp-for="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Select the Category :</label>
-            @Html.DropDownList("Categories", (IEnumerable<SelectListItem>)ViewBag.Categories)
-            </div>
+        @using (Html.BeginForm("Create"))
+        {
+            
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
+                    <label class="control-label">Describe the Task</label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Select the Date of Task`s start</label>
+                    <input asp-for="StartDate" class="form-control" value="@DateTime.Now" />
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Slelct the Date of Task`s End</label>
+                    <input asp-for="EndDate" class="form-control" />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Select the Category :</label>
+
+                    @Html.DropDownListFor(m => m.CategoryId , (IEnumerable<SelectListItem>)ViewBag.Categor)
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            
+        }
     </div>
 </div>
 

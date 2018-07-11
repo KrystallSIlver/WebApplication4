@@ -21,7 +21,7 @@ namespace WebApplication4
         // GET: CategoryViewModels
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CategoryViewModel.ToListAsync());
+            return View(await _context.categoryViewModels.ToListAsync());
         }
 
         // GET: CategoryViewModels/Details/5
@@ -32,7 +32,7 @@ namespace WebApplication4
                 return NotFound();
             }
 
-            var categoryViewModel = await _context.CategoryViewModel
+            var categoryViewModel = await _context.categoryViewModels
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (categoryViewModel == null)
             {
@@ -72,7 +72,7 @@ namespace WebApplication4
                 return NotFound();
             }
 
-            var categoryViewModel = await _context.CategoryViewModel.FindAsync(id);
+            var categoryViewModel = await _context.categoryViewModels.FindAsync(id);
             if (categoryViewModel == null)
             {
                 return NotFound();
@@ -123,7 +123,7 @@ namespace WebApplication4
                 return NotFound();
             }
 
-            var categoryViewModel = await _context.CategoryViewModel
+            var categoryViewModel = await _context.categoryViewModels
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (categoryViewModel == null)
             {
@@ -138,15 +138,15 @@ namespace WebApplication4
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var categoryViewModel = await _context.CategoryViewModel.FindAsync(id);
-            _context.CategoryViewModel.Remove(categoryViewModel);
+            var categoryViewModel = await _context.categoryViewModels.FindAsync(id);
+            _context.categoryViewModels.Remove(categoryViewModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CategoryViewModelExists(int id)
         {
-            return _context.CategoryViewModel.Any(e => e.Id == id);
+            return _context.categoryViewModels.Any(e => e.Id == id);
         }
     }
 }
